@@ -1,4 +1,5 @@
 import torch.nn as nn
+from torch.nn import init
 from models.cnn_block import CNNBlock
 from models.dense_block import DenseBlock
 from torchsummary import summary
@@ -85,12 +86,22 @@ class VGG16(nn.Module):
         # 1 softmax layer
         self.classifier.append(nn.Linear(dense_block_dims[-1], self.n_classes))
 
+        self.init_weights()
+
     def forward(self, X):
         for layer in self.features:
             X = layer(X)
         for layer in self.classifier:
             X = layer(X)
         return X
+
+    def init_weights(self):
+        for layer in self.features:
+            if isinstance(layer, nn.Conv2d):
+                init.kaiming_normal_(layer.weight)
+        for layer in self.classifier:
+            if isinstance(layer, nn.Linear):
+                init.kaiming_normal_(layer.weight)
 
     def get_summary(self):
         model = nn.ModuleList()
