@@ -2,7 +2,8 @@ import torch.nn as nn
 
 
 class CNNBlock(nn.Module):
-    def __init__(self, channels, kernel_size, stride, padding, activation):
+    def __init__(self, channels, kernel_size, stride,
+                 padding, activation='relu'):
         super(CNNBlock, self).__init__()
         self.layers = nn.ModuleList()
 
