@@ -40,7 +40,7 @@ class VGG11(nn.Module):
 
         # 2 convolutional layers with
         # 256 filters, kernel size 3x3, stride 1, padding 1, ReLU
-        cnn_block3_channels = [cnn_block2_channels[-1], 256, 256, 256]
+        cnn_block3_channels = [cnn_block2_channels[-1], 256, 256]
         self.features.extend(CNNBlock(channels=cnn_block3_channels,
                                       kernel_size=3,
                                       stride=1,
@@ -52,7 +52,7 @@ class VGG11(nn.Module):
 
         # 2 convolutional layers with
         # 512 filters, kernel size 3x3, stride 1, padding 1, ReLU
-        cnn_block4_channels = [cnn_block3_channels[-1], 512, 512, 512]
+        cnn_block4_channels = [cnn_block3_channels[-1], 512, 512]
         self.features.extend(CNNBlock(channels=cnn_block4_channels,
                                       kernel_size=3,
                                       stride=1,
@@ -64,7 +64,7 @@ class VGG11(nn.Module):
 
         # 2 convolutional layers with
         # 512 filters, kernel size 3x3, stride 1, padding 1, ReLU
-        cnn_block5_channels = [cnn_block4_channels[-1], 512, 512, 512]
+        cnn_block5_channels = [cnn_block4_channels[-1], 512, 512]
         self.features.extend(CNNBlock(channels=cnn_block5_channels,
                                       kernel_size=3,
                                       stride=1,
