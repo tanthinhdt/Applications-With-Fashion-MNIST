@@ -52,12 +52,6 @@ class Training():
             model.load_state_dict(checkpoint['model_state_dict'])
         return model
 
-    def get_model_summary(self):
-        input_shape = (self.model_params['img_channel'],
-                       self.model_params['img_size'],
-                       self.model_params['img_size'])
-        return summary(self.model, input_shape)
-
     def get_optimizer(self, optimizer_ptt, optimizer_params, checkpoint=None):
         optimizer = optimizer_ptt(params=self.model.parameters(),
                                   **optimizer_params)
