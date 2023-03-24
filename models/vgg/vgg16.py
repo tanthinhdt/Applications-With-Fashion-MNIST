@@ -104,7 +104,4 @@ class VGG16(nn.Module):
                 init.kaiming_normal_(layer.weight)
 
     def get_summary(self):
-        model = nn.ModuleList()
-        model.extend(self.features)
-        model.extend(self.classifier)
-        return summary(model, (self.img_channel, self.img_size, self.img_size))
+        return summary(self, (self.img_channel, self.img_size, self.img_size))
