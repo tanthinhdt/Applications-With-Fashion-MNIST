@@ -10,7 +10,6 @@ class VGG11(nn.Module):
         super(VGG11, self).__init__()
         self.img_size = img_size
         self.img_channel = img_channel
-        self.n_classes = n_classes
         self.features = nn.ModuleList()
         self.classifier = nn.ModuleList()
 
@@ -83,8 +82,9 @@ class VGG11(nn.Module):
                                           activation='relu',
                                           dropout=0.5).get_block())
 
-        # 1 softmax layer
-        self.classifier.append(nn.Linear(dense_block_dims[-1], self.n_classes))
+        # 1 fully connected layer with n_classes units, softmax activation
+        self.classifier.append(nn.Linear(dense_block_dims[-1], n_classes))
+        self.classifier.append(nn.Softmax(dim=1))
 
         self.init_weights()
 
