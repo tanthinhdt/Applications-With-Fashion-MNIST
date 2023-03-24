@@ -23,7 +23,7 @@ class VGG19(nn.Module):
 
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        self.img_size = (self.img_size - 2) // 2 + 1
+        img_size = (img_size - 2) // 2 + 1
 
         # 2 convolutional layers with
         # 128 filters, kernel size 3x3, stride 1, padding 1, ReLU
@@ -35,7 +35,7 @@ class VGG19(nn.Module):
 
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        self.img_size = (self.img_size - 2) // 2 + 1
+        img_size = (img_size - 2) // 2 + 1
 
         # 4 convolutional layers with
         # 256 filters, kernel size 3x3, stride 1, padding 1, ReLU
@@ -47,7 +47,7 @@ class VGG19(nn.Module):
 
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        self.img_size = (self.img_size - 2) // 2 + 1
+        img_size = (img_size - 2) // 2 + 1
 
         # 4 convolutional layers with
         # 512 filters, kernel size 3x3, stride 1, padding 1, ReLU
@@ -59,7 +59,7 @@ class VGG19(nn.Module):
 
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        self.img_size = (self.img_size - 2) // 2 + 1
+        img_size = (img_size - 2) // 2 + 1
 
         # 4 convolutional layers with
         # 512 filters, kernel size 3x3, stride 1, padding 1, ReLU
@@ -71,13 +71,13 @@ class VGG19(nn.Module):
 
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
-        self.img_size = (self.img_size - 2) // 2 + 1
+        img_size = (img_size - 2) // 2 + 1
 
         # 1 flatten layer
         self.features.append(nn.Flatten())
 
         # 2 fully connected layer with 4096 units, ReLu activation
-        dense_block_dims = [self.img_size**2 * 512, 4096, 4096]
+        dense_block_dims = [img_size**2 * 512, 4096, 4096]
         self.classifier.extend(DenseBlock(dims=dense_block_dims,
                                           activation='relu',
                                           dropout=0.5).get_block())
@@ -104,7 +104,4 @@ class VGG19(nn.Module):
                 init.kaiming_normal_(layer.weight)
 
     def get_summary(self):
-        model = nn.ModuleList()
-        model.extend(self.features)
-        model.extend(self.classifier)
-        return summary(model, (self.img_channel, self.img_size, self.img_size))
+        return summary(self, (self.img_channel, self.img_size, self.img_size))
