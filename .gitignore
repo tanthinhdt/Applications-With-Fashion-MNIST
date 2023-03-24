@@ -93,3 +93,4 @@ target/
 # Data and models
 data/*/*
 !.gitkeep
+*.pth
