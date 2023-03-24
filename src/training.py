@@ -109,12 +109,11 @@ class Training():
         train_loader, val_loader = self.get_data_loader(
             batch_sizes=batch_sizes)
 
-        for epoch in tqdm(range(epochs), desc='Epochs', total=epochs, leave=False,
-                          unit='epoch'):
+        for epoch in tqdm(range(epochs), desc='Epochs', total=epochs,
+                          leave=False, unit='epoch'):
             batch_loss = 0
             count = 0
-            for X, y in tqdm(train_loader, desc='Sample per batch',
-                             total=batch_sizes[0], leave=False):
+            for X, y in train_loader:
                 self.model.train()
                 self.optimizer.zero_grad()
                 X, y = X.to(self.device), y.to(self.device)
