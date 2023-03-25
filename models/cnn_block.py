@@ -2,13 +2,27 @@ import torch.nn as nn
 
 
 class CNNBlock(nn.Module):
-    def __init__(self, channels, kernel_sizes, strides,
-                 paddings, activations=None):
+    def __init__(self, channels, kernel_sizes=[3], strides=[2],
+                 paddings=[1], activations=['relu']):
         super(CNNBlock, self).__init__()
         self.layers = nn.ModuleList()
+        n_layers = len(channels) - 1
 
-        if not activations:
-            activations = ['relu'] * len(kernel_sizes)
+        if len(kernel_sizes) == 1:
+            kernel_sizes *= n_layers
+        assert len(kernel_sizes) == n_layers, "number of kernel sizes is invalid"
+
+        if len(strides) == 1:
+            strides *= n_layers
+        assert len(strides) == n_layers, "number of strides is invalid"
+
+        if len(paddings) == 1:
+            paddings *= n_layers
+        assert len(paddings) == n_layers, "number of paddings is invalid"
+
+        if len(activations) == 1:
+            activations *= n_layers
+        assert len(activations) == n_layers, "number of activation functions is invalid"
 
         self.activation_dict = {
             'sigmoid': nn.Sigmoid(),

@@ -3,7 +3,7 @@ from cnn_block import CNNBlock
 
 
 class ResidualBlock(nn.Module):
-    def __init__(self, channels, kernel_sizes, strides, paddings, activations=None, downsample=None):
+    def __init__(self, channels, kernel_sizes=[3], strides=[2], paddings=[1], activations=['relu'], downsample=None):
         super(ResidualBlock, self).__init__()
         self.layers = nn.ModuleList()
 
