@@ -2,22 +2,27 @@ import torch.nn as nn
 
 
 class DenseBlock(nn.Module):
-    def __init__(self, dims, activation='relu', dropout=0.5):
+    def __init__(self, dims, activations=None, dropouts=None):
         super(DenseBlock, self).__init__()
         self.layers = nn.ModuleList()
 
-        if activation == 'sigmoid':
-            self.activation = nn.Sigmoid()
-        elif activation == 'tanh':
-            self.activation = nn.Tanh()
-        else:
-            self.activation = nn.ReLU()
+        if not activations:
+            activations = ['relu'] * (len(dims) - 1)
 
-        for in_dim, out_dim in zip(dims, dims[1:]):
+        if not dropouts:
+            dropouts = [0.5] * (len(dims) - 1)
+
+        activation_dict = {
+            'sigmoid': nn.Sigmoid(),
+            'tanh': nn.Tanh(),
+            'relu': nn.ReLU(),
+        }
+
+        for i, (in_dim, out_dim) in enumerate(zip(dims, dims[1:])):
             self.layers.append(nn.Linear(in_dim, out_dim))
             self.layers.append(nn.BatchNorm1d(out_dim))
-            self.layers.append(self.activation)
-            self.layers.append(nn.Dropout(dropout))
+            self.layers.append(activation_dict[activations[i]])
+            self.layers.append(nn.Dropout(dropouts[i]))
 
     def forward(self, X):
         for layer in self.layers:

@@ -10,7 +10,7 @@ class CNNBlock(nn.Module):
         if not activations:
             activations = ['relu'] * len(kernel_sizes)
 
-        activation_dict = {
+        self.activation_dict = {
             'sigmoid': nn.Sigmoid(),
             'tanh': nn.Tanh(),
             'relu': nn.ReLU(),
@@ -18,9 +18,10 @@ class CNNBlock(nn.Module):
 
         for i, (in_channel, out_channel) in enumerate(zip(channels, channels[1:])):
             self.layers.append(nn.Conv2d(in_channel, out_channel,
-                                         kernel_sizes[i], strides[i], paddings[i]))
+                                         kernel_sizes[i], strides[i],
+                                         paddings[i]))
             self.layers.append(nn.BatchNorm2d(out_channel))
-            self.layers.append(activation_dict[activations[i]])
+            self.layers.append(self.activation_dict[activations[i]])
 
     def forward(self, X):
         for layer in self.layers:
