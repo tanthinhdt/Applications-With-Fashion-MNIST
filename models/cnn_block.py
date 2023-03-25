@@ -7,7 +7,7 @@ class CNNBlock(nn.Module):
         super(CNNBlock, self).__init__()
         self.layers = nn.ModuleList()
 
-        if activations:
+        if not activations:
             activations = ['relu'] * len(kernel_sizes)
 
         activation_dict = {
