@@ -55,7 +55,7 @@ class VGG19(nn.Module):
                                       paddings=cnn_block3_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
-        self.features.append(nn.MaxPool2d(kernel_size=2, strides=2))
+        self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
         img_size = (img_size - 2) // 2 + 1
 
         # 4 convolutional layers with
