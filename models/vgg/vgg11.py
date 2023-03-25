@@ -23,6 +23,7 @@ class VGG11(nn.Module):
                                       kernel_sizes=cnn_block1_kernel_sizes,
                                       strides=cnn_block1_strides,
                                       paddings=cnn_block1_paddings).get_block())
+
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
         img_size = (img_size - 2) // 2 + 1
@@ -52,7 +53,6 @@ class VGG11(nn.Module):
                                       kernel_sizes=cnn_block3_kernel_sizes,
                                       strides=cnn_block3_strides,
                                       paddings=cnn_block3_paddings).get_block())
-
         # 1 max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
         img_size = (img_size - 2) // 2 + 1
