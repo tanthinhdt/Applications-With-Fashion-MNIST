@@ -93,9 +93,11 @@ class VGG16(nn.Module):
 
         # 2 fully connected layers with 4096 units, ReLu activation
         dense_block_dims = [img_size**2 * 512, 4096, 4096]
+        dense_block_activations = ['relu']
+        dense_block_dropouts = [0.5]
         self.classifier.extend(DenseBlock(dims=dense_block_dims,
-                                          activations=['relu'],
-                                          dropouts=[0.5]).get_block())
+                                          activations=dense_block_activations,
+                                          dropouts=dense_block_dropouts).get_block())
 
         # softmax layer
         self.classifier.append(nn.Linear(dense_block_dims[-1], n_classes))

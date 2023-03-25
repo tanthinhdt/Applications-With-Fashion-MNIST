@@ -19,10 +19,12 @@ class VGG13(nn.Module):
         cnn_block1_kernel_sizes = [3]
         cnn_block1_strides = [1]
         cnn_block1_paddings = [1]
+        cnn_block1_activations = ['relu']
         self.features.extend(CNNBlock(channels=cnn_block1_channels,
                                       kernel_sizes=cnn_block1_kernel_sizes,
                                       strides=cnn_block1_strides,
-                                      paddings=cnn_block1_paddings).get_block())
+                                      paddings=cnn_block1_paddings,
+                                      activations=cnn_block1_activations).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -34,10 +36,12 @@ class VGG13(nn.Module):
         cnn_block2_kernel_sizes = [3]
         cnn_block2_strides = [1]
         cnn_block2_paddings = [1]
+        cnn_block2_activations = ['relu']
         self.features.extend(CNNBlock(channels=cnn_block2_channels,
                                       kernel_sizes=cnn_block2_kernel_sizes,
                                       strides=cnn_block2_strides,
-                                      paddings=cnn_block2_paddings).get_block())
+                                      paddings=cnn_block2_paddings,
+                                      activations=cnn_block2_activations).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -49,10 +53,12 @@ class VGG13(nn.Module):
         cnn_block3_kernel_sizes = [3]
         cnn_block3_strides = [1]
         cnn_block3_paddings = [1]
+        cnn_block3_activations = ['relu']
         self.features.extend(CNNBlock(channels=cnn_block3_channels,
                                       kernel_sizes=cnn_block3_kernel_sizes,
                                       strides=cnn_block3_strides,
-                                      paddings=cnn_block3_paddings).get_block())
+                                      paddings=cnn_block3_paddings,
+                                      activations=cnn_block3_activations).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -64,10 +70,12 @@ class VGG13(nn.Module):
         cnn_block4_kernel_sizes = [3]
         cnn_block4_strides = [1]
         cnn_block4_paddings = [1]
+        cnn_block4_activations = ['relu']
         self.features.extend(CNNBlock(channels=cnn_block4_channels,
                                       kernel_sizes=cnn_block4_kernel_sizes,
                                       strides=cnn_block4_strides,
-                                      paddings=cnn_block4_paddings).get_block())
+                                      paddings=cnn_block4_paddings,
+                                      activations=cnn_block4_activations).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -79,10 +87,12 @@ class VGG13(nn.Module):
         cnn_block5_kernel_sizes = [3]
         cnn_block5_strides = [1]
         cnn_block5_paddings = [1]
+        cnn_block5_activations = ['relu']
         self.features.extend(CNNBlock(channels=cnn_block5_channels,
                                       kernel_sizes=cnn_block5_kernel_sizes,
                                       strides=cnn_block5_strides,
-                                      paddings=cnn_block5_paddings).get_block())
+                                      paddings=cnn_block5_paddings,
+                                      activations=cnn_block5_activations).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -93,9 +103,11 @@ class VGG13(nn.Module):
 
         # 2 fully connected layers with 4096 units, ReLu activation
         dense_block_dims = [img_size**2 * 512, 4096, 4096]
+        dense_block_activations = ['relu']
+        dense_block_dropouts = [0.5]
         self.classifier.extend(DenseBlock(dims=dense_block_dims,
-                                          activations=['relu'],
-                                          dropouts=[0.5]).get_block())
+                                          activations=dense_block_activations,
+                                          dropouts=dense_block_dropouts).get_block())
 
         # softmax layer
         self.classifier.append(nn.Linear(dense_block_dims[-1], n_classes))
