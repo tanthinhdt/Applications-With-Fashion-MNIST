@@ -27,7 +27,7 @@ class VGG11(nn.Module):
 
         # 1 convolutional layers with
         # 128 filters, kernel size 3x3, stride 1, padding 1, ReLU
-        cnn_block2_channels = [cnn_block1_channels[-1], 128, 128]
+        cnn_block2_channels = [cnn_block1_channels[-1], 128]
         self.features.extend(CNNBlock(channels=cnn_block2_channels,
                                       kernel_size=3,
                                       stride=1,
