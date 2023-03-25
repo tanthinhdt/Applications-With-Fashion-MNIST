@@ -2,23 +2,25 @@ import torch.nn as nn
 
 
 class CNNBlock(nn.Module):
-    def __init__(self, channels, kernel_size, stride,
-                 padding, activation='relu'):
+    def __init__(self, channels, kernel_sizes, strides,
+                 paddings, activations=None):
         super(CNNBlock, self).__init__()
         self.layers = nn.ModuleList()
 
-        if activation == 'sigmoid':
-            self.activation = nn.Sigmoid()
-        elif activation == 'tanh':
-            self.activation = nn.Tanh()
-        else:
-            self.activation = nn.ReLU()
+        if not activations:
+            activations = ['relu'] * len(kernel_sizes)
 
-        for in_channel, out_channel in zip(channels, channels[1:]):
+        activation_dict = {
+            'sigmoid': nn.Sigmoid(),
+            'tanh': nn.Tanh(),
+            'relu': nn.ReLU(),
+        }
+
+        for i, (in_channel, out_channel) in enumerate(zip(channels, channels[1:])):
             self.layers.append(nn.Conv2d(in_channel, out_channel,
-                                         kernel_size, stride, padding))
+                                         kernel_sizes[i], strides[i], paddings[i]))
             self.layers.append(nn.BatchNorm2d(out_channel))
-            self.layers.append(self.activation)
+            self.layers.append(activation_dict[activations[i]])
 
     def forward(self, X):
         for layer in self.layers:
