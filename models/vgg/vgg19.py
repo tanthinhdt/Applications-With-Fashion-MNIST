@@ -21,8 +21,8 @@ class VGG19(nn.Module):
         cnn_block1_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block1_channels,
                                       kernel_sizes=cnn_block1_kernel_sizes,
-                                      stride=cnn_block1_strides,
-                                      padding=cnn_block1_paddings).get_block())
+                                      strides=cnn_block1_strides,
+                                      paddings=cnn_block1_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -36,8 +36,8 @@ class VGG19(nn.Module):
         cnn_block2_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block2_channels,
                                       kernel_sizes=cnn_block2_kernel_sizes,
-                                      stride=cnn_block2_strides,
-                                      padding=cnn_block2_paddings).get_block())
+                                      strides=cnn_block2_strides,
+                                      paddings=cnn_block2_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -51,11 +51,11 @@ class VGG19(nn.Module):
         cnn_block3_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block3_channels,
                                       kernel_sizes=cnn_block3_kernel_sizes,
-                                      stride=cnn_block3_strides,
-                                      padding=cnn_block3_paddings).get_block())
+                                      strides=cnn_block3_strides,
+                                      paddings=cnn_block3_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
-        self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        self.features.append(nn.MaxPool2d(kernel_size=2, strides=2))
         img_size = (img_size - 2) // 2 + 1
 
         # 4 convolutional layers with
@@ -66,8 +66,8 @@ class VGG19(nn.Module):
         cnn_block4_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block4_channels,
                                       kernel_sizes=cnn_block4_kernel_sizes,
-                                      stride=cnn_block4_strides,
-                                      padding=cnn_block4_paddings).get_block())
+                                      strides=cnn_block4_strides,
+                                      paddings=cnn_block4_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -81,8 +81,8 @@ class VGG19(nn.Module):
         cnn_block5_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block5_channels,
                                       kernel_sizes=cnn_block5_kernel_sizes,
-                                      stride=cnn_block5_strides,
-                                      padding=cnn_block5_paddings).get_block())
+                                      strides=cnn_block5_strides,
+                                      paddings=cnn_block5_paddings).get_block())
 
         # max pooling layer with kernel size 2x2, stride 2
         self.features.append(nn.MaxPool2d(kernel_size=2, stride=2))

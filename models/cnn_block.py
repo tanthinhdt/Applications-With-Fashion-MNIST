@@ -20,8 +20,10 @@ class CNNBlock(nn.Module):
             paddings *= n_layers
         assert len(paddings) == n_layers, "number of paddings is invalid"
 
+        print(activations)
         if len(activations) == 1:
             activations *= n_layers
+        print(f'{len(activations)} - {channels}')
         assert len(activations) == n_layers, "number of activation functions is invalid"
 
         self.activation_dict = {
