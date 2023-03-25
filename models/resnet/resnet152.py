@@ -5,15 +5,15 @@ from models.residual_block import ResidualBlock
 from torchsummary import summary
 
 
-class ResNet18(nn.Module):
+class ResNet152(nn.Module):
     def __init__(self, img_size, img_channel, n_classes) -> None:
-        super().__init__(ResNet18, self)
+        super().__init__(ResNet152, self)
         self.img_size = img_size
         self.img_channel = img_channel
         self.features = nn.ModuleList()
         self.classifier = nn.ModuleList()
 
-        # convolutional layer 1 with
+        # 1 convolutional layer with
         # kernel size 7x7, 64 filters, stride 2, padding 1, ReLU
         cnn_block1_channels = [self.img_channel, 64]
         cnn_block1_kernel_sizes = [7]
@@ -29,7 +29,7 @@ class ResNet18(nn.Module):
         self.features.append(nn.MaxPool2d(kernel_size=3, stride=2))
         img_size = (img_size - 3) // 2 + 1
 
-        # residual block 1 with 2 convolutional layer, each has:
+        # 1 residual block with 2 convolutional layer, each has:
         # kernel size 3x3, 64 filters, stride 1, padding 1
         res_block1_channels = [cnn_block1_channels[-1], 64, 64]
         res_block1_kernel_sizes = [3]
@@ -40,7 +40,7 @@ class ResNet18(nn.Module):
                                            strides=res_block1_strides,
                                            paddings=res_block1_paddings).get_block())
 
-        # residual block 2 with 2 convolutional layer, each has:
+        # 1 residual block with 2 convolutional layer, each has:
         # kernel size 3x3, 64 filters, stride 1, padding 1
         res_block2_channels = [res_block1_channels[-1], 64, 64]
         res_block2_kernel_sizes = [3]
@@ -51,7 +51,7 @@ class ResNet18(nn.Module):
                                            strides=res_block2_strides,
                                            paddings=res_block2_paddings).get_block())
 
-        # residual block 3 contains:
+        # 1 residual block contains:
         # 1 convolutional layer with kernel size 3x3, 128 filters, stride 2, padding 1
         # 1 convolutional layer with kernel size 3x3, 128 filters, stride 1, padding 1
         res_block3_channels = [res_block2_channels[-1], 128, 128]
@@ -64,7 +64,7 @@ class ResNet18(nn.Module):
                                            paddings=res_block3_paddings).get_block())
         img_size = (img_size - 3) // 2 + 1
 
-        # residual block 4 with 2 convolutional layer, each has:
+        # 1 residual block with 2 convolutional layer, each has:
         # kernel size 3x3, 128 filters, stride 1, padding 1
         res_block4_channels = [res_block3_channels[-1], 128, 128]
         res_block4_kernel_sizes = [3]
@@ -75,7 +75,7 @@ class ResNet18(nn.Module):
                                            strides=res_block4_strides,
                                            paddings=res_block4_paddings).get_block())
 
-        # residual block 5 contains:
+        # 1 residual block contains:
         # 1 convolutional layer with kernel size 3x3, 256 filters, stride 2, padding 1
         # 1 convolutional layer with kernel size 3x3, 256 filters, stride 1, padding 1
         res_block5_channels = [res_block4_channels[-1], 256, 256]
@@ -88,7 +88,7 @@ class ResNet18(nn.Module):
                                            paddings=res_block5_paddings).get_block())
         img_size = (img_size - 3) // 2 + 1
 
-        # residual block 6 with 2 convolutional layer, each has:
+        # 1 residual block with 2 convolutional layer, each has:
         # kernel size 3x3, 256 filters, stride 1, padding 1
         res_block6_channels = [res_block5_channels[-1], 256, 256]
         res_block6_kernel_sizes = [3]
@@ -99,7 +99,7 @@ class ResNet18(nn.Module):
                                            strides=res_block6_strides,
                                            paddings=res_block6_paddings).get_block())
 
-        # residual block 7 contains:
+        # 1 residual block contains:
         # 1 convolutional layer with kernel size 3x3, 512 filters, stride 2, padding 1
         # 1 convolutional layer with kernel size 3x3, 512 filters, stride 1, padding 1
         res_block7_channels = [res_block6_channels[-1], 512, 512]
@@ -112,9 +112,9 @@ class ResNet18(nn.Module):
                                            paddings=res_block7_paddings).get_block())
         img_size = (img_size - 3) // 2 + 1
 
-        # residual block 8 with 2 convolutional layer, each has:
+        # 1 residual block with 2 convolutional layer, each has:
         # kernel size 3x3, 512 filters, stride 1, padding 1
-        res_block8_channels = [res_block7_channels[-1], 512, 512]
+        res_block8_channels = [res_block7_channels[-1], 256, 256]
         res_block8_kernel_sizes = [3]
         res_block8_strides = [1]
         res_block8_paddings = [1]
@@ -123,14 +123,11 @@ class ResNet18(nn.Module):
                                            strides=res_block8_strides,
                                            paddings=res_block8_paddings).get_block())
 
-        # avarage pooling layer
+        # 1 avarage pooling layer
         self.features.append(nn.AvgPool2d(kernel_size=7, stride=1))
         img_size = (img_size - 7) + 1
 
-        # flatten layer
-        self.features.append(nn.Flatten())
-
-        # softmax layer
+        # 1 softmax layer
         self.classifier.append(nn.Linear(img_size**2, n_classes))
         self.classifier.append(nn.Softmax(dim=1))
 
