@@ -125,7 +125,7 @@ class Training():
             self.train_history['val_acc'].append(
                 self.evaluate(val_loader=val_loader))
 
-            if (epoch + 1) % save_every == 0:
+            if save_every > 0 and (epoch + 1) % save_every == 0:
                 self.save()
 
         return self.train_history
