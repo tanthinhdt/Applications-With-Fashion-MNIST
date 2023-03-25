@@ -5,9 +5,9 @@ from models.residual_block import ResidualBlock
 from torchsummary import summary
 
 
-class ResNet34(nn.Module):
+class ResNet50(nn.Module):
     def __init__(self, img_size, img_channel, n_classes) -> None:
-        super().__init__(ResNet34, self)
+        super().__init__(ResNet50, self)
         self.img_size = img_size
         self.img_channel = img_channel
         self.features = nn.ModuleList()

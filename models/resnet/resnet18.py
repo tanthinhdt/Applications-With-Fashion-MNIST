@@ -16,11 +16,14 @@ class ResNet18(nn.Module):
 
         # 1 convolutional layer
         # with kernel size 7x7, 64 filters, stride 2, padding 1, ReLU
-        cnn_block1_channels = [img_channel, 64]
+        cnn_block1_channels = [self.img_channel, 64]
+        cnn_block1_kernel_sizes = [7]
+        cnn_block1_strides = [2]
+        cnn_block1_paddings = [1]
         self.features.extend(CNNBlock(channels=cnn_block1_channels,
-                                      kernel_size=7,
-                                      stride=2,
-                                      padding=1).get_block())
+                                      kernel_sizes=cnn_block1_kernel_sizes,
+                                      stride=cnn_block1_strides,
+                                      padding=cnn_block1_paddings).get_block())
         img_size = (img_size - 7) // 2 + 1
 
         # 1 max pooling layer with kernel size 3x3, stride 2
