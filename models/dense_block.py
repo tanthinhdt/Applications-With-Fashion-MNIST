@@ -2,22 +2,30 @@ import torch.nn as nn
 
 
 class DenseBlock(nn.Module):
-    def __init__(self, dims, activation='relu', dropout=0.5):
+    def __init__(self, dims, activations=['relu'], dropouts=[0.5]):
         super(DenseBlock, self).__init__()
         self.layers = nn.ModuleList()
+        n_layers = len(dims) - 1
 
-        if activation == 'sigmoid':
-            self.activation = nn.Sigmoid()
-        elif activation == 'tanh':
-            self.activation = nn.Tanh()
-        else:
-            self.activation = nn.ReLU()
+        if len(activations) == 1:
+            activations *= n_layers
+        assert len(activations) == n_layers, "number of activation functions is invalid"
 
-        for in_dim, out_dim in zip(dims, dims[1:]):
+        if len(dropouts) == 1:
+            dropouts *= n_layers
+        assert len(dropouts) == n_layers, "number of dropouts is invalid"
+
+        self.activation_dict = {
+            'sigmoid': nn.Sigmoid(),
+            'tanh': nn.Tanh(),
+            'relu': nn.ReLU(),
+        }
+
+        for i, (in_dim, out_dim) in enumerate(zip(dims, dims[1:])):
             self.layers.append(nn.Linear(in_dim, out_dim))
             self.layers.append(nn.BatchNorm1d(out_dim))
-            self.layers.append(self.activation)
-            self.layers.append(nn.Dropout(dropout))
+            self.layers.append(self.activation_dict[activations[i]])
+            self.layers.append(nn.Dropout(dropouts[i]))
 
     def forward(self, X):
         for layer in self.layers:
